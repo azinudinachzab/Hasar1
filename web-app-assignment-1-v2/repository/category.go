@@ -6,11 +6,11 @@ import (
 )
 
 type CategoryRepository interface {
-	Store(category *model.Category) error
-	Update(id int, category *model.Category) error
+	Store(Category *model.Category) error
+	Update(id int, category model.Category) error
 	Delete(id int) error
 	GetByID(id int) (*model.Category, error)
-	GetList() ([]*model.Category, error)
+	GetList() ([]model.Category, error)
 }
 
 type categoryRepository struct {
@@ -21,33 +21,37 @@ func NewCategoryRepo(filebasedDb *filebased.Data) *categoryRepository {
 	return &categoryRepository{filebasedDb}
 }
 
-func (c *categoryRepository) Store(category *model.Category) error {
-	c.filebasedDb.StoreCategory(*category)
-
+func (c *categoryRepository) Store(Category *model.Category) error {
+	c.filebasedDb.StoreCategory(*Category)
 	return nil
 }
 
-func (c *categoryRepository) Update(id int, category *model.Category) error {
+func (c *categoryRepository) Update(id int, category model.Category) error {
 	//beginanswer
-	c.filebasedDb.UpdateCategory(id, *category)
+	c.filebasedDb.UpdateCategory(id, category)
 
 	return nil
+	//endanswer return nil
 }
 
 func (c *categoryRepository) Delete(id int) error {
-	// Implement the Delete function here
+	//beginanswer
 	c.filebasedDb.DeleteCategory(id)
 
 	return nil
+	//endanswer return fmt.Errorf("not implement")
 }
 
 func (c *categoryRepository) GetByID(id int) (*model.Category, error) {
-	// Implement the GetByID function here
+	category, err := c.filebasedDb.GetCategoryByID(id)
 
-	return nil, nil
+	return category, err
 }
 
-func (c *categoryRepository) GetList() ([]*model.Category, error) {
-	// Implement the GetList function here
-	return nil, nil
+func (c *categoryRepository) GetList() ([]model.Category, error) {
+	//beginanswer
+	categories, err := c.filebasedDb.GetCategories()
+
+	return categories, err
+	//endanswer return nil, nil
 }

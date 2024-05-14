@@ -7,10 +7,10 @@ import (
 
 type CategoryService interface {
 	Store(category *model.Category) error
-	Update(id int, category *model.Category) error
+	Update(id int, category model.Category) error
 	Delete(id int) error
 	GetByID(id int) (*model.Category, error)
-	GetList() ([]*model.Category, error)
+	GetList() ([]model.Category, error)
 }
 
 type categoryService struct {
@@ -30,22 +30,44 @@ func (c *categoryService) Store(category *model.Category) error {
 	return nil
 }
 
-func (c *categoryService) Update(id int, category *model.Category) error {
-	// Implement the Update function here
+func (c *categoryService) Update(id int, category model.Category) error {
+	//beginanswer
+	err := c.categoryRepository.Update(id, category)
+	if err != nil {
+		return err
+	}
+
 	return nil
+	//endanswer return nil
 }
 
 func (c *categoryService) Delete(id int) error {
-	// Implement the Delete function here
+	//beginanswer
+	err := c.categoryRepository.Delete(id)
+	if err != nil {
+		return err
+	}
+
 	return nil
+	//endanswer return nil
 }
 
 func (c *categoryService) GetByID(id int) (*model.Category, error) {
-	// Implement the GetByID function here
-	return nil, nil
+	category, err := c.categoryRepository.GetByID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	return category, nil
 }
 
-func (c *categoryService) GetList() ([]*model.Category, error) {
-	// Implement the GetList function here
-	return nil, nil
+func (c *categoryService) GetList() ([]model.Category, error) {
+	//beginanswer
+	categories, err := c.categoryRepository.GetList()
+	if err != nil {
+		return nil, err
+	}
+
+	return categories, nil
+	//endanswer return nil, nil
 }
